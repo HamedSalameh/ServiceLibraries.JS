@@ -42,7 +42,7 @@ xdataObject.prototype.constructor = xdataObject;
 /////////////////////////////////////////////////////////////////////////////////////
 // Globals
 /////////////////////////////////////////////////////////////////////////////////////
-var globals = (function() {
+var globals = (function () {
 
     return {
         ResponseType: {
@@ -63,6 +63,12 @@ var globals = (function() {
         ElementIDExtention: {
             ModalId: "Modal",
             AlertContainer: "_alertBox"
+        },
+        AlertType: {
+            success: 0,
+            info: 1,
+            warning: 2,
+            danger: 3
         }
     };
 

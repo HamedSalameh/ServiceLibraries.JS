@@ -1,4 +1,4 @@
-var uiServices = (function() {
+var ui = (function() {
     "use strict";
 
     var toggleDisplayEdit = function(event, containerElementType, displayItemClass, cancelChanges) {
@@ -56,26 +56,6 @@ var uiServices = (function() {
 
     };
 
-    return {
-        ToggleDisplayEdit: function(event, containerElement, displayItemClass, cancelChanges) {
-            return toggleDisplayEdit(event, containerElement, displayItemClass, cancelChanges);
-        },
-        OpenPartialViewModal: function(serverURL, data, targetModal) {
-            return openPartialViewModal(serverURL, data, targetModal);
-        }
-    };
-
-})();
-
-var alerts = (function() {
-
-    var Type = {
-        success: 0,
-        info: 1,
-        warning: 2,
-        danger: 3
-    };
-
     var showAlert = function(element, type, results) {
 
         if (element != null && type != null) {
@@ -90,13 +70,13 @@ var alerts = (function() {
 
             var className = "alert alert-dismissible ";
 
-            if (type === Type.success) {
+            if (type === globals.AlertType.success) {
                 className += " alert-success";
-            } else if (type === Type.info) {
+            } else if (type === globals.AlertType.info) {
                 className += " alert-info";
-            } else if (type === Type.warning) {
+            } else if (type === globals.AlertType.warning) {
                 className += " alert-warning";
-            } else if (type === Type.danger) {
+            } else if (type === globals.AlertType.danger) {
                 className += " alert-danger";
             }
             e.className += className;
@@ -124,17 +104,30 @@ var alerts = (function() {
     };
 
     return {
+        ToggleDisplayEdit: function(event, containerElement, displayItemClass, cancelChanges) {
+            return toggleDisplayEdit(event, containerElement, displayItemClass, cancelChanges);
+        },
+        OpenPartialViewModal: function(serverURL, data, targetModal) {
+            return openPartialViewModal(serverURL, data, targetModal);
+        }
+    };
+
+})();
+
+var alerts = (function() {
+
+    return {
         success: function(element, text) {
-            showAlert(element, Type.success, text);
+            showAlert(element,  globals.AlertType.success, text);
         },
         info: function(element, text) {
-            showAlert(element, Type.info, text);
+            showAlert(element, globals.AlertType.info, text);
         },
         warning: function(element, text) {
-            showAlert(element, Type.warning, text);
+            showAlert(element, globals.AlertType.warning, text);
         },
         danger: function(element, text) {
-            showAlert(element, Type.danger, text);
+            showAlert(element, globals.AlertType.danger, text);
         }
     };
 

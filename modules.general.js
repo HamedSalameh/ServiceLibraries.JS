@@ -1,4 +1,5 @@
-var utilities = (function() {
+var general = (function() {
+    "use strict";
 
     var _clone = function(obj) {
         var copy;

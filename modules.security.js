@@ -1,4 +1,4 @@
-var sec = (function() {
+var security = (function() {
     "use strict";
 
     var getAntiForgeryToken = function(containerElement) {

@@ -73,45 +73,8 @@ var generalServices = (function() {
             }
         };
     };
-
-    var serverCall = function(serverUrl, ajaxType, formData, successCallbackFn, alertBoxName) {
-
-        var asyncCreate = function() {
-            return $.ajax({
-                url: serverUrl,
-                data: formData,
-                type: ajaxType
-            });
-        };
-
-        asyncCreate().done(function(result) {
-            var res = responseHandler.isSuccess(result);
-            if (res == true) {
-                // all went ok!
-                successCallbackFn();
-            } else {
-                // something went wrong
-                var res = responseHandler.isFailure(result);
-                if (res == true) {
-                    alerts.warning(alertBoxName, result);
-                } else {
-                    alerts.danger(alertBoxName, result);
-                }
-            }
-
-        }).fail(function(result) {
-            // general ajax failure
-            console.log(result);
-        });
-    }
-
-
-
+    
     return {
-
-        ServerCall: function(serverUrl, ajaxType, formData, successCallbackFn, alertBoxName) {
-            return serverCall(serverUrl, ajaxType, formData, successCallbackFn, alertBoxName);
-        },
         CheckServerData: function(serverDataHolderId, alertBoxName) {
             return checkServerData(serverDataHolderId, alertBoxName);
         },
