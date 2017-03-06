@@ -1,6 +1,46 @@
 var network = (function () {
+    "use strict";
 
-    var response = (function () {
+    var serverData = (function () {
+
+        var checkServerData = function (serverDataHolderId, alertBoxName, successCallbackFn) {
+            try {
+                var serverData = $("#" + serverDataHolderId).val();
+            } catch (err) {
+                throw new jsiException("Unable to locate element in DOM that holds the server data", serverDataHolderId);
+            }
+            var ResultStatus = responseHandler.isSuccess(serverData);
+
+            if (ResultStatus === true) {
+                // all went ok!
+                if (typeof successCallbackFn !== 'undefined') {
+                    try {
+                        successCallbackFn();
+                    } catch (err) {
+                        throw err;
+                    }
+                }
+            } else {
+                // something went wrong
+                var res = responseHandler.isFailure(serverData);
+                if (res === true) {
+                    alerts.warning(alertBoxName, serverData);
+                } else {
+                    alerts.danger(alertBoxName, serverData);
+                }
+            };
+        };
+
+        return {
+            CheckServerData: function (serverDataHolderId, alertBoxName) {
+                return checkServerData(serverDataHolderId, alertBoxName);
+            },
+
+        };
+
+    })();
+
+    var serverResponse = (function () {
 
         var getType = function (message) {
             if (message !== null) {
@@ -45,7 +85,7 @@ var network = (function () {
 
         return {
             GetType: function (message) {
-              return getType(message);
+                return getType(message);
             },
             IsFailure: function (message) {
                 return isFailure(message);
@@ -68,13 +108,13 @@ var network = (function () {
         };
 
         asyncCreate().done(function (result) {
-            var res = response.IsSuccess(result);
+            var res = serverResponse.IsSuccess(result);
             if (res == true) {
                 // all went ok!
                 successCallbackFn();
             } else {
                 // something went wrong
-                var res = response.IsFailure(result);
+                var res = serverResponse.IsFailure(result);
                 if (res == true) {
                     alerts.warning(alertBoxName, result);
                 } else {
@@ -89,11 +129,13 @@ var network = (function () {
     }
 
     return {
+        ModuleName: "network",
         ServerCall: function (serverUrl, ajaxType, formData, successCallbackFn, alertBoxName) {
             return serverCall(serverUrl, ajaxType, formData, successCallbackFn, alertBoxName);
-        }
+        },
+        ServerData: serverData,
+        ServerResponse: serverResponse
     }
-
 
 })();
 

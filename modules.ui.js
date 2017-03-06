@@ -104,6 +104,7 @@ var ui = (function() {
     };
 
     return {
+        ModuleName: "ui",
         ToggleDisplayEdit: function(event, containerElement, displayItemClass, cancelChanges) {
             return toggleDisplayEdit(event, containerElement, displayItemClass, cancelChanges);
         },
@@ -117,6 +118,7 @@ var ui = (function() {
 var alerts = (function() {
 
     return {
+        ModuleName: "alerts",
         success: function(element, text) {
             showAlert(element,  globals.AlertType.success, text);
         },

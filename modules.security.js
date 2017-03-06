@@ -18,6 +18,7 @@ var security = (function() {
     }
 
     return {
+        ModuleName: "security",
         GetAntiForgeryToken: function(containerElement) {
             return getAntiForgeryToken(containerElement);
         }

@@ -45,6 +45,7 @@ xdataObject.prototype.constructor = xdataObject;
 var globals = (function () {
 
     return {
+        ModuleName: "globals",
         ResponseType: {
             Operation: 0,
             Validation: 1,

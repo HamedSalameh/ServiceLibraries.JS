@@ -67,6 +67,7 @@ var general = (function() {
     };
 
     return {
+        ModuleName: "general",
         Clone: function(obj) {
             return _clone(obj);
         },
