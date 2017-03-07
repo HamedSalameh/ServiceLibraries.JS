@@ -9,7 +9,7 @@ var network = (function () {
             } catch (err) {
                 throw new jsiException("Unable to locate element in DOM that holds the server data", serverDataHolderId);
             }
-            var ResultStatus = responseHandler.isSuccess(serverData);
+            var ResultStatus = modules.network.ServerResponse.IsSuccess(serverData);
 
             if (ResultStatus === true) {
                 // all went ok!
@@ -22,7 +22,7 @@ var network = (function () {
                 }
             } else {
                 // something went wrong
-                var res = responseHandler.isFailure(serverData);
+                var res = modules.network.ServerResponse.IsFailure(serverData);
                 if (res === true) {
                     alerts.warning(alertBoxName, serverData);
                 } else {
@@ -56,7 +56,7 @@ var network = (function () {
 
         var isFailure = function (message) {
             if (message !== null) {
-                message = generalServices.CreateJsonArray(message);
+                message = modules.general.CreateJsonArray(message);
                 // iterate all response objects
                 if (message.length > 0) {
                     for (var i = 0; i < message.length; i++) {
@@ -71,7 +71,7 @@ var network = (function () {
 
         var isSuccess = function (message) {
             if (message !== null) {
-                message = generalServices.CreateJsonArray(message);
+                message = modules.general.CreateJsonArray(message);
                 if (message.length > 0) {
                     for (var i = 0; i < message.length; i++) {
                         if (message[i].Status !== globals.ResultStatus.Success) {

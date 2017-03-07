@@ -35,7 +35,7 @@ var ui = (function() {
 
     var openPartialViewModal = function(serverURL, data, targetModal) {
 
-        var _targetModal = generalServices.GetElement(targetModal, globals.ElementIDExtention.ModalId);
+        var _targetModal = modules.general.GetElement(targetModal, globals.ElementIDExtention.ModalId);
         _targetModal = $(_targetModal);
 
         $.ajax({
@@ -61,7 +61,7 @@ var ui = (function() {
         if (element != null && type != null) {
             var e = {};
             try {
-                e = generalServices.GetElement(element, globals.ElementIDExtention.AlertContainer);
+                e = modules.general.GetElement(element, globals.ElementIDExtention.AlertContainer);
             } catch (err) {
                 throw err;
             }
@@ -83,23 +83,19 @@ var ui = (function() {
 
             // Validate we are dealing with array
             try {
-                results = generalServices.CreateJsonArray(results);
+                results = modules.general.CreateJsonArray(results);
             } catch (err) {
                 throw err;
             }
 
             for (var i = 0; i < results.length; i++) {
-                if (responseHandler.getType(results[i]) === globals.ResponseType.Validation) {
+                if (modules.network.ServerResponse.getType(results[i]) === globals.ResponseType.Validation) {
                     e.innerHTML += "<span>" + results[i].PropertyName + " : " + results[i].Message + "</span></br>";
-                } else if (responseHandler.getType(results[i]) === globals.ResponseType.Operation) {
+                } else if (modules.network.ServerResponse.getType(results[i]) === globals.ResponseType.Operation) {
                     e.innerHTML += "<span>" + results[i].Message + "</span></br>";
                 }
             }
 
-            //setTimeout(function () {
-            //    var el = document.getElementById(element);
-            //    $(el).alert("close");
-            //}, 3000);
         }
     };
 
