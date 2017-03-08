@@ -38,10 +38,11 @@ var general = (function() {
     var _getElement = function(elementId, elementIdExtention) {
         // try locate the element
         var e = document.getElementById(elementId);
+        //in case element was not located by Id, try appending _alertBox to the ID and search again
         if (e === 'undefined' || e === null) {
             e = document.getElementById(elementId + elementIdExtention);
         }
-        //in case element was not located by Id, try appending _alertBox to the ID and search again
+        
         if (e === 'undefined' || e === null) {
             // could not locate element on DOM to place the alert box
             throw new jsiException("Could not locate element on DOM to inject alert.", elementId);
