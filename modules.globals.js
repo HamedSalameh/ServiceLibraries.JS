@@ -30,7 +30,7 @@ function xdataObject(xsrfToken, dataObj) {
     if (dataObj instanceof Object) {
         for (var attr in dataObj) {
             if (dataObj.hasOwnProperty(attr)) {
-                this[attr] = generalServices.Clone(dataObj[attr]);
+                this[attr] = modules.general.Clone(dataObj[attr]);
             }
         }
     }

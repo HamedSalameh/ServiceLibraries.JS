@@ -106,6 +106,9 @@ var ui = (function() {
         },
         OpenPartialViewModal: function(serverURL, data, targetModal) {
             return openPartialViewModal(serverURL, data, targetModal);
+        },
+        ShowAlert: function (element, type, results) {
+            return showAlert(element, type, results);
         }
     };
 
@@ -115,17 +118,17 @@ var alerts = (function() {
 
     return {
         ModuleName: "alerts",
-        success: function(element, text) {
-            showAlert(element,  globals.AlertType.success, text);
+        Success: function(element, text) {
+            ui.ShowAlert(element,  globals.AlertType.success, text);
         },
-        info: function(element, text) {
-            showAlert(element, globals.AlertType.info, text);
+        Info: function(element, text) {
+            ui.ShowAlert(element, globals.AlertType.info, text);
         },
-        warning: function(element, text) {
-            showAlert(element, globals.AlertType.warning, text);
+        Warning: function(element, text) {
+            ui.ShowAlert(element, globals.AlertType.warning, text);
         },
-        danger: function(element, text) {
-            showAlert(element, globals.AlertType.danger, text);
+        Danger: function(element, text) {
+            ui.ShowAlert(element, globals.AlertType.danger, text);
         }
     };
 

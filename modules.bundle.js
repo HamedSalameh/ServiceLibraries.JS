@@ -13,4 +13,4 @@ var modules = (function () {
    
     return modulesBundle;
 
-})(general, globals, network, security, ui);
+})(general, globals, network, security, ui, alerts);

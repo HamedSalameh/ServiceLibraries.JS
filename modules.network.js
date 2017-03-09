@@ -3,7 +3,7 @@ var network = (function () {
 
     var serverData = (function () {
 
-        var checkServerData = function (serverDataHolderId, alertBoxName, successCallbackFn) {
+        var checkServerData = function (serverDataHolderId, onServerSuccessResponseCallbackFn, onServerFailureResponseCallbackFn) {
             try {
                 var serverData = $("#" + serverDataHolderId).val();
             } catch (err) {
@@ -13,27 +13,36 @@ var network = (function () {
 
             if (ResultStatus === true) {
                 // all went ok!
-                if (typeof successCallbackFn !== 'undefined') {
+                if (typeof onServerSuccessResponseCallbackFn !== 'undefined') {
                     try {
-                        successCallbackFn();
+                        onServerSuccessResponseCallbackFn(serverData);
                     } catch (err) {
+                        console.log(".network.serverData.checkServerData : Exception in onServerSuccessResponseCallbackFn : " + err);
                         throw err;
                     }
                 }
-            } else {
-                // something went wrong
-                var res = modules.network.ServerResponse.IsFailure(serverData);
-                if (res === true) {
-                    alerts.warning(alertBoxName, serverData);
-                } else {
-                    alerts.danger(alertBoxName, serverData);
+                else {
+                    console.log(".network.serverData.checkServerData : onServerSuccessResponseCallbackFn was not provided");
                 }
-            };
-        };
+            } else {
+                if (typeof onServerFailureResponseCallbackFn !== 'undefined') {
+                    try {
+                        onServerFailureResponseCallbackFn(serverData);
+                    } catch (err) {
+                        console.log(".network.serverData.checkServerData : Exception in onServerFailureResponseCallbackFn : " + err);
+                        throw err;
+                    }
+
+                } else {
+                    console.log(".network.serverData.checkServerData : onServerFailureResponseCallbackFn was not provided");
+                }
+            }
+
+        }
 
         return {
-            CheckServerData: function (serverDataHolderId, alertBoxName) {
-                return checkServerData(serverDataHolderId, alertBoxName);
+            CheckServerData: function (serverDataHolderId, onServerSuccessResponseCallbackFn, onServerFailureResponseCallbackFn) {
+                return checkServerData(serverDataHolderId, onServerSuccessResponseCallbackFn, onServerFailureResponseCallbackFn);
             },
 
         };
@@ -55,7 +64,7 @@ var network = (function () {
         }
 
         var isFailure = function (message) {
-            if (message !== null) {
+            if (message) {
                 message = modules.general.CreateJsonArray(message);
                 // iterate all response objects
                 if (message.length > 0) {
@@ -97,7 +106,7 @@ var network = (function () {
 
     })();
 
-    var serverCall = function (serverUrl, ajaxType, formData, successCallbackFn, alertBoxName) {
+    var serverCall = function (serverUrl, ajaxType, formData, successCallbackFn, failureCallbackFn) {
 
         var asyncCreate = function () {
             return $.ajax({
@@ -111,27 +120,36 @@ var network = (function () {
             var res = serverResponse.IsSuccess(result);
             if (res == true) {
                 // all went ok!
-                successCallbackFn();
+                if (typeof successCallbackFn !== 'undefined') {
+                    try {
+                        successCallbackFn();
+                    } catch (err) {
+                        console.log(".network.serverData.serverCall : Exception in successCallbackFn : " + err);
+                        throw err;
+                    }
+                }
             } else {
                 // something went wrong
-                var res = serverResponse.IsFailure(result);
-                if (res == true) {
-                    alerts.warning(alertBoxName, result);
-                } else {
-                    alerts.danger(alertBoxName, result);
+                if (typeof failureCallbackFn !== 'undefined') {
+                    try {
+                        failureCallbackFn();
+                    } catch (err) {
+                        console.log(".network.serverData.serverCall : Exception in failureCallbackFn : " + err);
+                        throw err;
+                    }
                 }
             }
 
         }).fail(function (result) {
             // general ajax failure
-            console.log(result);
+            console.log(".network.serverData.serverCall : general ajax failure." + result);
         });
     }
 
     return {
         ModuleName: "network",
-        ServerCall: function (serverUrl, ajaxType, formData, successCallbackFn, alertBoxName) {
-            return serverCall(serverUrl, ajaxType, formData, successCallbackFn, alertBoxName);
+        ServerCall: function (serverUrl, ajaxType, formData, successCallbackFn, failureCallbackFn) {
+            return serverCall(serverUrl, ajaxType, formData, successCallbackFn, failureCallbackFn);
         },
         ServerData: serverData,
         ServerResponse: serverResponse
