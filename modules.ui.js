@@ -89,9 +89,9 @@ var ui = (function() {
             }
 
             for (var i = 0; i < results.length; i++) {
-                if (modules.network.ServerResponse.getType(results[i]) === globals.ResponseType.Validation) {
+                if (modules.network.ServerResponse.GetType(results[i]) === globals.ResponseType.Validation) {
                     e.innerHTML += "<span>" + results[i].PropertyName + " : " + results[i].Message + "</span></br>";
-                } else if (modules.network.ServerResponse.getType(results[i]) === globals.ResponseType.Operation) {
+                } else if (modules.network.ServerResponse.GetType(results[i]) === globals.ResponseType.Operation) {
                     e.innerHTML += "<span>" + results[i].Message + "</span></br>";
                 }
             }

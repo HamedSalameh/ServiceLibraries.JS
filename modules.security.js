@@ -12,7 +12,7 @@ var security = (function() {
                 token = null;
             }
         } else {
-            throw new jsiException("AntiForgeryToken - Container element must not be null.", containerElement);
+            throw new jsiException(".security.GetAntiForgeryToken : Container element must not be null.", containerElement);
         }
         return token;
     }
